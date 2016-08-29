@@ -24,6 +24,14 @@ class ChecklistViewController: UITableViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+    
+    @IBAction func addItem() {
+        let checklist = Checklist(title: "nouvelle action")
+        dataModel.append(checklist)
+        let indexPath = NSIndexPath(forRow: dataModel.count - 1, inSection: 0)
+        tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Left)
+        tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: .Bottom, animated: true)
+    }
 }
 
 // data source
@@ -42,6 +50,13 @@ extension ChecklistViewController {
         cell.accessoryType = checklist.done ? .Checkmark : .None
         
         return cell
+    }
+    
+    override func tableView(tableView: UITableView,
+                            commitEditingStyle editingStyle: UITableViewCellEditingStyle,
+                            forRowAtIndexPath indexPath: NSIndexPath) {
+        dataModel.removeAtIndex(indexPath.row)
+        tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
     }
 }
 
