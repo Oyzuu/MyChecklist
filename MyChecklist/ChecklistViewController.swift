@@ -39,14 +39,14 @@ class ChecklistViewController: UITableViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "addItemSegue" {
             if let navigationController = segue.destinationViewController as? UINavigationController {
-                if let addItemViewController = navigationController.topViewController as? AddItemViewController {
+                if let addItemViewController = navigationController.viewControllers[0] as? AddItemViewController {
                     addItemViewController.delegate = self
                 }
             }
         }
         else if segue.identifier == "editItemSegue" {
             if let navigationController = segue.destinationViewController as? UINavigationController {
-                if let addItemViewController = navigationController.topViewController as? AddItemViewController {
+                if let addItemViewController = navigationController.viewControllers[0] as? AddItemViewController {
                     if let indexPath = tableView.indexPathForCell(sender as! UITableViewCell) {
                         addItemViewController.checklistToEdit = dataModel[indexPath.row]
                         addItemViewController.delegate        = self
@@ -203,8 +203,7 @@ extension ChecklistViewController {
             countLabel.text = "Done !"
         }
         else if checklist.todos.count > 0 {
-            let listCount   = checklist.todos.count - checklist.checkedTodosCount
-            countLabel.text = "\(listCount) item(s) left"
+            countLabel.text = "\(checklist.checkedTodosCount) checked on \(checklist.todos.count)"
         }
         
         return cell

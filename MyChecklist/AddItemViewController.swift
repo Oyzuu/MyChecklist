@@ -70,7 +70,7 @@ class AddItemViewController: UITableViewController {
             }
             else {
                 let checklist = Checklist(title: title)
-            delegate.addItemViewController(self, didFinishAddingItem: checklist)
+                delegate.addItemViewController(self, didFinishAddingItem: checklist)
             }
         }
     }

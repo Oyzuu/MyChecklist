@@ -66,20 +66,44 @@
 		5C5392B01D70480500A71A79 /* MyChecklist */ = {
 			isa = PBXGroup;
 			children = (
+				5C73058A1D75D4EE00F8253B /* Storyboard */,
+				5C7305891D75D4D400F8253B /* Controller */,
+				5C7305881D75D4C200F8253B /* Model */,
 				5C5392B11D70480500A71A79 /* AppDelegate.swift */,
-				5C5392B31D70480500A71A79 /* ChecklistViewController.swift */,
-				5C4A22A71D742A7F00868DE7 /* AddItemViewController.swift */,
-				5C7305841D7587C200F8253B /* TodoListController.swift */,
-				5C7305861D758C5700F8253B /* AddTodoController.swift */,
-				5C5392C31D706B6F00A71A79 /* Checklist.swift */,
-				5C7305821D7584C600F8253B /* Todo.swift */,
-				5C5392B51D70480500A71A79 /* Main.storyboard */,
 				5C5392B81D70480500A71A79 /* Assets.xcassets */,
-				5C5392BA1D70480500A71A79 /* LaunchScreen.storyboard */,
 				5C5392BD1D70480500A71A79 /* Info.plist */,
 				5C5392C51D707F6A00A71A79 /* README.md */,
 			);
 			path = MyChecklist;
+			sourceTree = "<group>";
+		};
+		5C7305881D75D4C200F8253B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				5C5392C31D706B6F00A71A79 /* Checklist.swift */,
+				5C7305821D7584C600F8253B /* Todo.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		5C7305891D75D4D400F8253B /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				5C5392B31D70480500A71A79 /* ChecklistViewController.swift */,
+				5C4A22A71D742A7F00868DE7 /* AddItemViewController.swift */,
+				5C7305841D7587C200F8253B /* TodoListController.swift */,
+				5C7305861D758C5700F8253B /* AddTodoController.swift */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		5C73058A1D75D4EE00F8253B /* Storyboard */ = {
+			isa = PBXGroup;
+			children = (
+				5C5392B51D70480500A71A79 /* Main.storyboard */,
+				5C5392BA1D70480500A71A79 /* LaunchScreen.storyboard */,
+			);
+			name = Storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
