@@ -20,6 +20,12 @@ class ChecklistViewController: UITableViewController {
         // ajout d'une vue vide comme footer pour éviter les cellules vides
         tableView.tableFooterView = UIView()
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        tableView.reloadData()
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -30,7 +36,6 @@ class ChecklistViewController: UITableViewController {
      Préparation du contrôleur en fonction du segue qui est appelé pour définir le comportement
      du contrôleur cible en fonction du type d'action (add / edit) et assignation d'un delegate
      */
- 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "addItemSegue" {
             if let navigationController = segue.destinationViewController as? UINavigationController {
@@ -44,8 +49,17 @@ class ChecklistViewController: UITableViewController {
                 if let addItemViewController = navigationController.topViewController as? AddItemViewController {
                     if let indexPath = tableView.indexPathForCell(sender as! UITableViewCell) {
                         addItemViewController.checklistToEdit = dataModel[indexPath.row]
-                        addItemViewController.delegate = self
+                        addItemViewController.delegate        = self
                     }
+                }
+            }
+        }
+        else if segue.identifier == "toTodoSegue" {
+            if let destination = segue.destinationViewController as? TodoListController {
+                if let indexPath = tableView.indexPathForCell(sender as! UITableViewCell) {
+                    destination.checklist      = dataModel[indexPath.row]
+                    destination.checklistIndex = indexPath.row
+                    destination.delegate       = self
                 }
             }
         }
@@ -145,6 +159,27 @@ extension ChecklistViewController: AddItemViewControllerDelegate {
     }
 }
 
+// MARK: TodoListDelegate
+extension ChecklistViewController: TodoListDelegate {
+    func addToChecklist(atIndex: Int, todo: Todo) {
+        dataModel[atIndex].todos.append(todo)
+        saveChecklists()
+    }
+    
+    func removeFromChecklist(atIndex: Int, todo: Todo) {
+        if let todoIndex = dataModel[atIndex].todos.indexOf(todo) {
+            print(todoIndex)
+            dataModel[atIndex].todos.removeAtIndex(todoIndex)
+        }
+        saveChecklists()
+    }
+    
+    func editOnChecklist(atIndex: Int, checklist: Checklist) {
+        dataModel[atIndex] = checklist
+        saveChecklists()
+    }
+}
+
 // MARK: Data source
 extension ChecklistViewController {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -155,31 +190,32 @@ extension ChecklistViewController {
                             cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("ChecklistItem",
                                                                forIndexPath: indexPath)
-        let label          = cell.viewWithTag(1000) as! UILabel
-        let checklist      = dataModel[indexPath.row]
-        label.text         = checklist.title
-        // cell.accessoryType = checklist.done ? .Checkmark : .None
+        let label      = cell.viewWithTag(1000) as! UILabel
+        let countLabel = cell.viewWithTag(1001) as! UILabel
+        
+        let checklist = dataModel[indexPath.row]
+        label.text    = checklist.title
+        
+        if checklist.todos.count == 0 {
+            countLabel.text = "empty"
+        }
+        else if checklist.todos.count == checklist.checkedTodosCount {
+            countLabel.text = "Done !"
+        }
+        else if checklist.todos.count > 0 {
+            let listCount   = checklist.todos.count - checklist.checkedTodosCount
+            countLabel.text = "\(listCount) item(s) left"
+        }
         
         return cell
     }
     
-    // Permet d'ajouter un swip left et delete aux cellules de la liste
+    // Permet d'ajouter un swipe left et delete aux cellules de la liste
     override func tableView(tableView: UITableView,
                             commitEditingStyle editingStyle: UITableViewCellEditingStyle,
                             forRowAtIndexPath indexPath: NSIndexPath) {
         dataModel.removeAtIndex(indexPath.row)
         tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-        saveChecklists()
-    }
-}
-
-// MARK: Delegate
-extension ChecklistViewController {
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let checklist  = dataModel[indexPath.row]
-        checklist.done = !checklist.done
-        
-        tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
         saveChecklists()
     }
 }

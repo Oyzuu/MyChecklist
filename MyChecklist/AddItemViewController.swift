@@ -8,16 +8,6 @@
 
 import UIKit
 
-// MARK: MAGIC TRIM O//
-/* 
- extension qui permet d'avoir un trim() plus classique pour le nettoyage des chaînes de caractères
- */
-extension String {
-    func trim() -> String {
-        return self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-    }
-}
-
 // MARK: Delegate protocol
 protocol AddItemViewControllerDelegate: class {
     func addItemViewControllerDidCancel(controller: AddItemViewController)
@@ -39,7 +29,7 @@ class AddItemViewController: UITableViewController {
         
         if let checklistToEdit = self.checklistToEdit {
             nameField.text = checklistToEdit.title
-            title = "Edit item"
+            title = "Edit checklist"
         }
     }
     
@@ -80,7 +70,7 @@ class AddItemViewController: UITableViewController {
             }
             else {
                 let checklist = Checklist(title: title)
-                delegate.addItemViewController(self, didFinishAddingItem: checklist)
+            delegate.addItemViewController(self, didFinishAddingItem: checklist)
             }
         }
     }

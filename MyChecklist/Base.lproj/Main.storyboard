@@ -22,8 +22,17 @@
                                     <rect key="frame" x="0.0" y="0.0" width="533" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" tag="1000" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XMs-ta-5mI">
-                                            <rect key="frame" x="28" y="13" width="505" height="17"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="number of items" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ybj-rm-toL">
+                                            <rect key="frame" x="48" y="22" width="161" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" red="0.49803921579999999" green="0.49803921579999999" blue="0.49803921579999999" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <imageView userInteractionEnabled="NO" tag="1002" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JbR-fA-uc5">
+                                            <rect key="frame" x="8" y="6" width="32" height="32"/>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="1000" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Checklist title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XMs-ta-5mI">
+                                            <rect key="frame" x="48" y="6" width="505" height="17"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -32,6 +41,7 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <segue destination="Uzf-JT-TYC" kind="presentation" identifier="editItemSegue" trigger="accessoryAction" id="7qz-xs-9zN"/>
+                                    <segue destination="784-pV-O0K" kind="show" identifier="toTodoSegue" id="I69-h7-9jT"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -52,14 +62,131 @@
             </objects>
             <point key="canvasLocation" x="1120" y="447"/>
         </scene>
-        <!--Add item-->
+        <!--Todo-->
+        <scene sceneID="Sdc-nM-eaG">
+            <objects>
+                <tableViewController id="784-pV-O0K" customClass="TodoListController" customModule="MyChecklist" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Mcy-ii-CpE">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="detailDisclosureButton" indentationWidth="10" reuseIdentifier="TodolistItem" id="nXr-Nn-Z15">
+                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nXr-Nn-Z15" id="adR-b4-0Cl">
+                                    <rect key="frame" x="0.0" y="0.0" width="533" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="2000" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Todo title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GPs-05-P0q">
+                                            <rect key="frame" x="48" y="11" width="163" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="2001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="✓" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JWo-oI-p64">
+                                            <rect key="frame" x="8" y="11" width="32" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                            <color key="textColor" red="0.30756315899999997" green="0.46150964779999998" blue="0.69799999999999995" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="XSW-gO-1M2" kind="presentation" identifier="editTodoSegue" trigger="accessoryAction" id="1mF-08-DSY"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="784-pV-O0K" id="ufH-6A-cvt"/>
+                            <outlet property="delegate" destination="784-pV-O0K" id="XDg-PM-UO9"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Todo" id="e2Q-kY-XUP">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="zUE-f6-4zY">
+                            <connections>
+                                <segue destination="XSW-gO-1M2" kind="presentation" identifier="addTodoSegue" id="H41-jp-jwE"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="U0G-Ug-hdd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1836" y="447"/>
+        </scene>
+        <!--Add a todo-->
+        <scene sceneID="UNp-Zm-9Nu">
+            <objects>
+                <tableViewController id="PGh-YD-NPy" customClass="AddTodoController" customModule="MyChecklist" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="B4e-bf-lqv">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <sections>
+                            <tableViewSection id="4lx-hp-la1">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="gFL-b1-mKj">
+                                        <rect key="frame" x="0.0" y="99" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gFL-b1-mKj" id="Sze-iM-Vey">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Todo name" textAlignment="natural" adjustsFontSizeToFit="NO" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="svl-c9-gEv">
+                                                    <rect key="frame" x="8" y="8" width="584" height="27"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                                    <connections>
+                                                        <action selector="save" destination="PGh-YD-NPy" eventType="editingDidEndOnExit" id="znI-y0-M0Y"/>
+                                                        <outlet property="delegate" destination="PGh-YD-NPy" id="RI7-o2-ReA"/>
+                                                    </connections>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottomMargin" secondItem="svl-c9-gEv" secondAttribute="bottom" id="329-5i-iHU"/>
+                                                <constraint firstItem="svl-c9-gEv" firstAttribute="leading" secondItem="Sze-iM-Vey" secondAttribute="leadingMargin" id="KfW-Eb-kA3"/>
+                                                <constraint firstItem="svl-c9-gEv" firstAttribute="top" secondItem="Sze-iM-Vey" secondAttribute="topMargin" id="mdr-gK-xXQ"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="svl-c9-gEv" secondAttribute="trailing" id="xwa-TY-KOL"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="PGh-YD-NPy" id="WU1-bg-Riv"/>
+                            <outlet property="delegate" destination="PGh-YD-NPy" id="H3L-c6-xGz"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Add a todo" id="X85-xx-g15">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Qm2-nj-uXZ">
+                            <connections>
+                                <action selector="cancel" destination="PGh-YD-NPy" id="spP-eI-Bna"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="hei-Lr-cQo">
+                            <connections>
+                                <action selector="save" destination="PGh-YD-NPy" id="WqY-31-kN3"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="doneButton" destination="hei-Lr-cQo" id="mkc-8G-9YC"/>
+                        <outlet property="titleField" destination="svl-c9-gEv" id="6pq-21-IQn"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HI9-9H-EgG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3291" y="-185"/>
+        </scene>
+        <!--Add a checklist-->
         <scene sceneID="Cmz-wt-int">
             <objects>
                 <tableViewController id="Waq-AV-jTT" customClass="AddItemViewController" customModule="MyChecklist" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="Gfr-JK-eU2">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <sections>
                             <tableViewSection id="ueP-bs-cO9">
                                 <cells>
@@ -96,7 +223,7 @@
                             <outlet property="delegate" destination="Waq-AV-jTT" id="vYE-ZX-RnG"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Add item" id="0EN-Cb-Ehc">
+                    <navigationItem key="navigationItem" title="Add a checklist" id="0EN-Cb-Ehc">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="NHC-mh-8uA">
                             <connections>
                                 <action selector="cancel" destination="Waq-AV-jTT" id="0d2-Xm-2iO"/>
@@ -153,8 +280,27 @@
             </objects>
             <point key="canvasLocation" x="1120" y="1214"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="BbI-NN-vdj">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="XSW-gO-1M2" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="pNW-QG-bkD">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="PGh-YD-NPy" kind="relationship" relationship="rootViewController" id="ED8-XX-nRc"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="u5c-ui-qJ6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2589" y="-185"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="H41-jp-jwE"/>
         <segue reference="7qz-xs-9zN"/>
     </inferredMetricsTieBreakers>
 </document>
