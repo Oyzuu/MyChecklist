@@ -9,6 +9,9 @@
 import UIKit
 
 // MARK: MAGIC TRIM O//
+/* 
+ extension qui permet d'avoir un trim() plus classique pour le nettoyage des chaînes de caractères
+ */
 extension String {
     func trim() -> String {
         return self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())

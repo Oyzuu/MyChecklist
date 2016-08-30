@@ -9,17 +9,15 @@
 import UIKit
 
 class ChecklistViewController: UITableViewController {
-    var dataModel = [Checklist]()
+    let checklistsKey = "checklists"
+    var dataModel     = [Checklist]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        dataModel.append(Checklist(title: "Promener le chien"))
-        dataModel.append(Checklist(title: "Danser la gigue"))
-        dataModel.append(Checklist(title: "Gagner au Scrabble"))
-        dataModel.append(Checklist(title: "Parler de Dieu avec mon chat"))
-        dataModel.append(Checklist(title: "Apprendre le Beer Pong"))
+        loadChecklists()
         
+        // ajout d'une vue vide comme footer pour éviter les cellules vides
         tableView.tableFooterView = UIView()
     }
 
@@ -28,6 +26,11 @@ class ChecklistViewController: UITableViewController {
     }
     
     //MARK: Segue preparation of doom
+    /*
+     Préparation du contrôleur en fonction du segue qui est appelé pour définir le comportement
+     du contrôleur cible en fonction du type d'action (add / edit) et assignation d'un delegate
+     */
+ 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "addItemSegue" {
             if let navigationController = segue.destinationViewController as? UINavigationController {
@@ -48,30 +51,93 @@ class ChecklistViewController: UITableViewController {
         }
     }
     
+    /*
+     Ajout d'item dans la liste de Checklist avec rafraichissement de la Table View,
+     scrollToRowAtIndexPath force le scrolling sur le dernier élément ajouté si la taille de la
+     liste dépasse celle de l'écran
+     */
     func addItem(item: Checklist) {
         dataModel.append(item)
         let indexPath = NSIndexPath(forRow: dataModel.count - 1, inSection: 0)
         tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Left)
         tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: .Bottom, animated: true)
     }
+    
+    /*
+     Récupère le chemin du dossier Documents propre à l'application
+     */
+    func documentsDirectory() -> String {
+        let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+        return paths[0]
+    }
+    
+    /*
+     Récupère le chemin du fichier qui servira à la sauvegarde par ajout de la chaine au chemin d'accès
+     par la méthode stringByAppendingPathComponent de NSString formatte le tout convenablement
+     */
+    func dataFilePath() -> String {
+        return (documentsDirectory() as NSString).stringByAppendingPathComponent("Checklists.plist")
+    }
+    
+    /*
+     Sauvegarde des données par instanciation d'un archiveur sur un objet NSMutableData dans lequel
+     nous voulons écrire des données encodées par l'archiveur.
+     Les données sont endodées dans un XML par paires clé / valeur.
+     
+     Voir Checklist.swift pour le protocole NSCoding et les méthodes à implémenter pour la
+     sérialisation.
+     */
+    func saveChecklists() {
+        let data     = NSMutableData()
+        let archiver = NSKeyedArchiver(forWritingWithMutableData: data)
+        archiver.encodeObject(dataModel, forKey: checklistsKey)
+        archiver.finishEncoding()
+        data.writeToFile(dataFilePath(), atomically: true)
+    }
+    
+    /* 
+     Décodage des données récupérées dans le fichier.
+     
+     Voir Checklist.swift pour le protocole NSCoding et les méthodes à implémenter pour la 
+     sérialisation.
+     */
+    func loadChecklists() {
+        let path = dataFilePath()
+        
+        guard NSFileManager.defaultManager().fileExistsAtPath(path) else { return }
+        
+        if let data = NSData(contentsOfFile: path) {
+            let unarchiver = NSKeyedUnarchiver(forReadingWithData: data)
+            defer {
+                unarchiver.finishDecoding()
+            }
+            self.dataModel = unarchiver.decodeObjectForKey(checklistsKey) as! [Checklist]
+        }
+    }
 }
 
 // MARK: AddItemViewControllerDelegate
+/* 
+ Implémentation du delegate AddItemViewControllerDelegate déclaré dans AddItemViewController.
+ Sert de canal de communication entre le délégué et le contrôleur cible -> Similaire au callback
+ 
+ Voir AddItemViewController pour plus d'infos
+ */
 extension ChecklistViewController: AddItemViewControllerDelegate {
     func addItemViewController(controller: AddItemViewController, didFinishAddingItem: Checklist) {
         addItem(didFinishAddingItem)
         controller.dismissViewControllerAnimated(true, completion: nil)
+        saveChecklists()
     }
     
     func addItemViewController(controller: AddItemViewController, didFinishEditingItem: Checklist) {        
-        if let index = dataModel.indexOf({
-            checklist in return checklist === didFinishEditingItem
-        }) {
+        if let index = dataModel.indexOf(didFinishEditingItem) {
             let indexPath = NSIndexPath(forRow: index, inSection: 0)
             tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
         }
         
         controller.dismissViewControllerAnimated(true, completion: nil)
+        saveChecklists()
     }
     
     func addItemViewControllerDidCancel(controller: AddItemViewController) {
@@ -79,7 +145,7 @@ extension ChecklistViewController: AddItemViewControllerDelegate {
     }
 }
 
-// MARK: data source
+// MARK: Data source
 extension ChecklistViewController {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataModel.count
@@ -97,11 +163,13 @@ extension ChecklistViewController {
         return cell
     }
     
+    // Permet d'ajouter un swip left et delete aux cellules de la liste
     override func tableView(tableView: UITableView,
                             commitEditingStyle editingStyle: UITableViewCellEditingStyle,
                             forRowAtIndexPath indexPath: NSIndexPath) {
         dataModel.removeAtIndex(indexPath.row)
         tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+        saveChecklists()
     }
 }
 
@@ -112,6 +180,7 @@ extension ChecklistViewController {
         checklist.done = !checklist.done
         
         tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+        saveChecklists()
     }
 }
 
